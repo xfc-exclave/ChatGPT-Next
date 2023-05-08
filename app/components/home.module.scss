@@ -1,7 +1,7 @@
 @mixin container {
   background-color: var(--white);
   border: var(--border-in-light);
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: var(--shadow);
   color: var(--black);
   background-color: var(--white);
@@ -456,8 +456,8 @@
   padding-top: 10px;
   box-sizing: border-box;
   flex-direction: column;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   border-top: var(--border-in-light);
   box-shadow: var(--card-shadow);
 }
