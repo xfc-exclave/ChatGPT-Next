@@ -10,6 +10,7 @@ import CopyIcon from "../icons/copy.svg";
 import DownloadIcon from "../icons/download.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import PromptIcon from "../icons/prompt.svg";
+import CleanIcon from "../icons/clean.svg";
 import MaskIcon from "../icons/mask.svg";
 import MaxIcon from "../icons/max.svg";
 import MinIcon from "../icons/min.svg";
@@ -333,6 +334,12 @@ export function ChatActions(props: {
     config.update((config) => (config.theme = nextTheme));
   }
 
+  // clean history
+  const chatStore = useChatStore();
+  function cleanHistory() {
+    chatStore.resetSession();
+  }
+
   // stop all responses
   const couldStop = ControllerPool.hasPending();
   const stopAll = () => ControllerPool.stopAll();
@@ -392,6 +399,13 @@ export function ChatActions(props: {
       >
         <MaskIcon />
       </div>
+
+      <div
+        className={`${chatStyle["chat-input-action"]} clickable`}
+        onClick={cleanHistory}
+      >
+        <CleanIcon />
+      </div>
     </div>
   );
 }
@@ -427,6 +441,13 @@ export function Chat() {
   const [promptHints, setPromptHints] = useState<Prompt[]>([]);
   const onSearch = useDebouncedCallback(
     (text: string) => {
+      if (text === "" && promptHints.length != 0) {
+        setPromptHints([]);
+        return;
+      }
+      if (text.startsWith("/")) {
+        text = text.slice(1);
+      }
       setPromptHints(promptStore.search(text));
     },
     100,
@@ -472,8 +493,7 @@ export function Chat() {
     } else if (!config.disablePromptHint && n < SEARCH_TEXT_LIMIT) {
       // check if need to trigger auto completion
       if (text.startsWith("/")) {
-        let searchText = text.slice(1);
-        onSearch(searchText);
+        onSearch(text);
       }
     }
   };

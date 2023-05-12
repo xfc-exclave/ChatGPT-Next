@@ -29,13 +29,25 @@ export function AvatarPicker(props: {
 }
 
 export function Avatar(props: { model?: ModelType; avatar?: string }) {
+  var roleUrl =
+    "https://genshin-1301046789.cos.ap-nanjing.myqcloud.com/avatar/chat-role-5.jpg";
   if (props.model) {
     return (
       <div className="no-dark">
         {props.model?.startsWith("gpt-4") ? (
           <BlackBotIcon className="user-avatar" />
         ) : (
-          <BotIcon className="user-avatar" />
+          // <BotIcon className="user-avatar" />
+          <div
+            style={{
+              width: "30px",
+              border: "1px solid rgb(222, 222, 222)",
+              borderRadius: "10px",
+              overflow: "hidden",
+            }}
+          >
+            <img style={{ width: "100%", display: "block" }} src={roleUrl} />
+          </div>
         )}
       </div>
     );
